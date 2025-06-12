@@ -2,17 +2,17 @@ import { IsString, IsNumber, IsObject, IsEnum, Min, Matches, IsOptional } from '
 import { ApiProperty } from '@nestjs/swagger';
 
 class UrlsDto {
-  @ApiProperty({ description: 'URL to redirect user for deposit' })
+  @ApiProperty({ description: 'URL to redirect the user for deposit' })
   @IsString()
   deposit_url: string;
 
-  @ApiProperty({ description: 'URL to redirect user after session ends' })
+  @ApiProperty({ description: 'URL to redirect the user after session ends' })
   @IsString()
   return_url: string;
 }
 
 class UserDto {
-  @ApiProperty({ description: 'Unique identifier of the player', required: false })
+  @ApiProperty({ description: 'Unique player identifier', required: false })
   @IsOptional()
   @IsString()
   user_id?: string;
@@ -43,7 +43,7 @@ class UserDto {
   @Matches(/^\d{4}-\d{2}-\d{2}$/, { message: 'registered_at must be in YYYY-MM-DD format' })
   registered_at: string;
 
-  @ApiProperty({ description: 'Player’s gender (m/f)', enum: ['m', 'f'] })
+  @ApiProperty({ description: 'Player’s gender (m = male, f = female)', enum: ['m', 'f'] })
   @IsEnum(['m', 'f'])
   gender: 'm' | 'f';
 
@@ -58,17 +58,17 @@ export class StartGameDto {
   @IsString()
   game: string;
 
-  @ApiProperty({ description: 'Currency code (3 or 4 letters, ISO 4217)', example: 'USD' })
+  @ApiProperty({ description: 'Currency code (3 or 4 uppercase letters, ISO 4217)', example: 'USD' })
   @IsString()
   @Matches(/^[A-Z]{3,4}$/, { message: 'currency must be a 3 or 4 letter ISO 4217 code' })
   currency: string;
 
-  @ApiProperty({ description: 'Language code (2 letters, ISO 639-1)', example: 'en' })
+  @ApiProperty({ description: 'Language code (2 lowercase letters, ISO 639-1)', example: 'en' })
   @IsString()
   @Matches(/^[a-z]{2}$/, { message: 'locale must be a 2-letter ISO 639-1 code' })
   locale: string;
 
-  @ApiProperty({ description: 'Player’s IP address (IPv4)', example: '192.168.1.1' })
+  @ApiProperty({ description: 'Player’s IP address (IPv4 format)', example: '192.168.1.1' })
   @IsString()
   @Matches(/^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/, { message: 'ip must be a valid IPv4 address' })
   ip: string;
@@ -77,15 +77,15 @@ export class StartGameDto {
   @IsEnum(['mobile', 'desktop'])
   client_type: 'mobile' | 'desktop';
 
-  @ApiProperty({ description: 'URLs for redirection', type: UrlsDto })
+  @ApiProperty({ description: 'Redirection URLs', type: UrlsDto })
   @IsObject()
   urls: UrlsDto;
 
-  @ApiProperty({ description: 'Player’s attributes', type: UserDto })
+  @ApiProperty({ description: 'Player’s details', type: UserDto })
   @IsObject()
   user: UserDto;
 
-  @ApiProperty({ description: 'RTP for the game session' })
+  @ApiProperty({ description: 'RTP value for the game session' })
   @IsNumber()
   @Min(0)
   rtp: number;
